@@ -1,0 +1,231 @@
+/* ============================= */
+/* RESET */
+/* ============================= */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: linear-gradient(135deg, #0f0f1a, #14002b, #1a0033);
+  background-size: 400% 400%;
+  animation: ambientShift 40s ease infinite;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: #ffffff;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: #6a00ff;
+  color: white;
+}
+
+/* ============================= */
+/* AMBIENT BACKGROUND SHIFT */
+/* ============================= */
+
+@keyframes ambientShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ============================= */
+/* HERO ROOM */
+/* ============================= */
+
+.hero-room {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-origin: center center;
+}
+
+/* Background glow */
+
+.room-background {
+  position: absolute;
+  width: 150%;
+  height: 150%;
+  background: radial-gradient(
+    circle at center,
+    rgba(120, 0, 255, 0.25),
+    transparent 70%
+  );
+  z-index: 0;
+  transition: filter 0.3s ease;
+}
+
+/* Floating objects */
+
+.room-object {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 14px;
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.5));
+}
+
+/* Positioning */
+
+.object-1 {
+  top: 20%;
+  left: 15%;
+}
+
+.object-2 {
+  bottom: 20%;
+  right: 20%;
+}
+
+/* Character */
+
+.character-placeholder {
+  position: relative;
+  z-index: 2;
+  width: 200px;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.character-svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 0 40px rgba(150, 0, 255, 0.5));
+}
+
+/* Hero Text */
+
+.hero-text {
+  position: absolute;
+  bottom: 15%;
+  text-align: center;
+  z-index: 3;
+}
+
+.hero-text h1 {
+  font-size: 4rem;
+  letter-spacing: 6px;
+  font-weight: 600;
+  text-shadow: 0 0 30px rgba(150, 0, 255, 0.35);
+}
+
+.hero-text p {
+  margin-top: 1rem;
+  opacity: 0.6;
+  letter-spacing: 2px;
+  font-size: 1rem;
+}
+
+/* Icons */
+
+.room-icon {
+  width: 60px;
+  height: 60px;
+  opacity: 0.75;
+  filter: drop-shadow(0 0 12px rgba(150, 0, 255, 0.4));
+}
+
+/* Floor anchor */
+
+.room-floor {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 45%;
+  pointer-events: none;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.45),
+    rgba(0, 0, 0, 0)
+  );
+}
+
+/* ============================= */
+/* GENERIC CINEMATIC SECTION */
+/* ============================= */
+
+.cinematic-section {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.section-overlay {
+  width: 100%;
+  height: 100%;
+  background: rgba(10, 0, 25, 0.55);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.section-content {
+  font-size: 3rem;
+  letter-spacing: 2px;
+  opacity: 0.9;
+}
+
+/* CINEMATIC REVEAL SECTION */
+
+.cinematic-reveal {
+  height: 100vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.reveal-glow {
+  position: absolute;
+  width: 1200px;
+  height: 1200px;
+  background: radial-gradient(
+    circle,
+    rgba(150, 0, 255, 0.25),
+    transparent 70%
+  );
+  filter: blur(120px);
+  z-index: 0;
+}
+
+.reveal-overlay {
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(6px);
+  background: rgba(10, 0, 25, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 10%;
+  z-index: 1;
+}
+
+.cinematic-reveal h2 {
+  font-size: 3.5rem;
+  font-weight: 500;
+  letter-spacing: 4px;
+  line-height: 1.4;
+  max-width: 900px;
+  text-shadow: 0 0 40px rgba(150, 0, 255, 0.35);
+}

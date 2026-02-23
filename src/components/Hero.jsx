@@ -148,7 +148,7 @@ const Hero = () => {
 
       <div ref={heroTextRef} className="hero-text">
         <h1>Kamyashree T</h1>
-        <p>Embedded Systems • Firmware • Precision Engineering</p>
+        <p>Embedded Systems Engineer • Firmware Developer</p>
       </div>
 
       <div className="room-floor" />

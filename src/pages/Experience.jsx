@@ -17,10 +17,10 @@ const Experience = () => {
           </div>
 
           <div className="experience-block">
-            <h4>Scope</h4>
+            <h4>Overview</h4>
             <p>
-              Contributing to client SoC production firmware within graphics
-              configuration and feature enablement flows across multiple client SKUs.
+              Working on client SoC firmware development within graphics configuration
+              and feature enablement flows across multiple platform variants.
             </p>
           </div>
 
@@ -28,43 +28,39 @@ const Experience = () => {
             <h4>Key Contributions</h4>
             <ul>
               <li>
-                Designed and integrated <strong>Dynamic Graphics Branding</strong>,
-                implementing platform-specific configuration logic across SKU variants.
+                Contributed to firmware feature development and platform configuration
+                across multiple client SKUs.
               </li>
               <li>
-                Investigated and resolved a <strong>PL4 power limit HSD issue</strong>
-                by tracing configuration paths across firmware source, build artifacts,
-                and generated binaries.
+                Implemented platform-specific logic for graphics-related feature enablement.
               </li>
               <li>
-                Performed low-level debugging involving configuration flags,
-                soft straps, fuse overrides, and initialization sequences.
+                Performed low-level debugging and root-cause analysis across firmware
+                initialization and configuration flows.
               </li>
               <li>
-                Participated in structured code reviews and cross-team issue triage
+                Collaborated in structured code reviews and cross-team issue resolution
                 within a large modular firmware codebase.
               </li>
             </ul>
           </div>
 
           <div className="experience-block">
-            <h4>Architecture & Refactoring Work</h4>
+            <h4>Learning & Exposure</h4>
             <ul>
               <li>
-                Analyzed workstation-class firmware variants (Razor Lake platform)
-                to understand platform deltas and reuse boundaries.
+                Gained exposure to firmware architecture, build systems, and platform
+                configuration pipelines.
               </li>
               <li>
-                Refactoring firmware-to-ucode mailbox subsystem to remove deprecated
-                HGS command handling by eliminating inheritance coupling and resolving
-                build-time dependency impacts.
+                Developed understanding of hardware–software interaction in production
+                firmware environments.
               </li>
             </ul>
           </div>
 
           <div className="experience-tech">
-            C++ • Production Firmware • Graphics Subsystem • Platform Configuration •
-            Soft Straps • Fuse Overrides • Build System • Debug & Root Cause Analysis
+            C++ • Firmware Development • Platform Configuration • Debugging • System-Level Thinking
           </div>
 
         </div>

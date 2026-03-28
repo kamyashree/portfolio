@@ -1,157 +1,158 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
 
 const Hero = () => {
-  const roomRef = useRef(null);
   const heroTextRef = useRef(null);
-  const bgRef = useRef(null);
-  const obj1Ref = useRef(null);
-  const obj2Ref = useRef(null);
-  const characterRef = useRef(null);
+  const coreRef = useRef(null);
+  const terminalRef = useRef(null);
+  const cpuCoreRef = useRef(null);
+  const cpuOutlineRef = useRef(null);
+
+  // 🔥 FIX: prevent double execution in React StrictMode
+  const hasRun = useRef(false);
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
+    if (hasRun.current) return;
+    hasRun.current = true;
 
-      // Fade-in text
-      gsap.fromTo(
-        heroTextRef.current,
-        { opacity: 0, y: 40 },
-        { opacity: 1, y: 0, duration: 1.5, ease: "power3.out" }
-      );
+    // TEXT ENTRY
+    gsap.fromTo(
+      heroTextRef.current,
+      { opacity: 0, y: 40 },
+      { opacity: 1, y: 0, duration: 1.2, ease: "power3.out" }
+    );
 
-      // Subtle object drift
-      gsap.to(obj1Ref.current, {
-        rotation: 2,
-        duration: 14,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut"
-      });
+    // FLOATING CORE
+    gsap.to(coreRef.current, {
+      y: -8,
+      duration: 4,
+      repeat: -1,
+      yoyo: true,
+      ease: "sine.inOut"
+    });
 
-      gsap.to(obj2Ref.current, {
-        rotation: -3,
-        duration: 18,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut"
-      });
+    // 🔥 INITIAL SLOW PULSE (booting)
+    const pulse = gsap.to(cpuCoreRef.current, {
+      scale: 1.12,
+      duration: 1.2,
+      repeat: -1,
+      yoyo: true,
+      ease: "power1.inOut",
+      transformOrigin: "center"
+    });
 
-      gsap.to(characterRef.current, {
-        y: -6,
-        duration: 6,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut"
-      });
+    // OUTLINE BREATH
+    gsap.to(cpuOutlineRef.current, {
+      opacity: 0.6,
+      duration: 2,
+      repeat: -1,
+      yoyo: true,
+      ease: "sine.inOut"
+    });
 
-      // Engineered parallax (inertia-based)
-      const bgX = gsap.quickTo(bgRef.current, "x", { duration: 0.8, ease: "power3.out" });
-      const bgY = gsap.quickTo(bgRef.current, "y", { duration: 0.8, ease: "power3.out" });
+    // 🧹 CLEAR TERMINAL (important)
+    terminalRef.current.innerHTML = "";
 
-      const obj1X = gsap.quickTo(obj1Ref.current, "x", { duration: 0.6, ease: "power3.out" });
-      const obj1Y = gsap.quickTo(obj1Ref.current, "y", { duration: 0.6, ease: "power3.out" });
+    // TERMINAL LOGS
+    const lines = [
+      "Initializing firmware...",
+      "Loading modules...",
+      "Establishing hardware interface...",
+      "System ready."
+    ];
 
-      const obj2X = gsap.quickTo(obj2Ref.current, "x", { duration: 0.6, ease: "power3.out" });
-      const obj2Y = gsap.quickTo(obj2Ref.current, "y", { duration: 0.6, ease: "power3.out" });
+    let i = 0;
 
-      const handleMouseMove = (e) => {
-        const dx = e.clientX / window.innerWidth - 0.5;
-        const dy = e.clientY / window.innerHeight - 0.5;
+    const typeLine = () => {
+      if (i >= lines.length) return;
 
-        bgX(dx * 12);
-        bgY(dy * 12);
+      const line = document.createElement("div");
+      line.className = "terminal-line";
+      terminalRef.current.appendChild(line);
 
-        obj1X(dx * 32);
-        obj1Y(dy * 32);
+      let j = 0;
 
-        obj2X(dx * 22);
-        obj2Y(dy * 22);
-      };
+      const typing = setInterval(() => {
+        if (j < lines[i].length) {
+          line.textContent += lines[i][j];
+          j++;
+        } else {
+          clearInterval(typing);
 
-      window.addEventListener("mousemove", handleMouseMove);
+          // 🔥 WHEN SYSTEM READY
+          if (lines[i] === "System ready.") {
+            // speed up pulse
+            pulse.timeScale(2.2);
 
-      // Scroll-based depth system
-      gsap.to(roomRef.current, {
-        scale: 1.06,
-        ease: "none",
-        scrollTrigger: {
-          trigger: roomRef.current,
-          start: "top top",
-          end: "bottom top",
-          scrub: true
+            // glow boost
+            gsap.to(cpuCoreRef.current, {
+              boxShadow: "0 0 35px rgba(150,0,255,0.9)",
+              duration: 0.4
+            });
+
+            // subtle flash
+            gsap.fromTo(
+              cpuOutlineRef.current,
+              { opacity: 1 },
+              { opacity: 0.6, duration: 0.6 }
+            );
+          }
+
+          i++;
+          setTimeout(typeLine, 400);
         }
-      });
+      }, 25);
+    };
 
-      gsap.to(bgRef.current, {
-        filter: "blur(18px)",
-        ease: "none",
-        scrollTrigger: {
-          trigger: roomRef.current,
-          start: "top top",
-          end: "bottom top",
-          scrub: true
-        }
-      });
+    setTimeout(typeLine, 800);
 
-      gsap.to([obj1Ref.current, obj2Ref.current], {
-        scale: 1.06,
-        ease: "none",
-        scrollTrigger: {
-          trigger: roomRef.current,
-          start: "top top",
-          end: "bottom top",
-          scrub: true
-        }
-      });
-
-      return () => {
-        window.removeEventListener("mousemove", handleMouseMove);
-      };
-
-    }, roomRef);
-
-    return () => ctx.revert();
   }, []);
 
   return (
-    <section ref={roomRef} className="hero-room">
+    <section className="hero-room">
 
-      <div ref={bgRef} className="room-background" />
+      {/* CPU CORE */}
+      <div ref={coreRef} className="hero-core">
+        <svg viewBox="0 0 200 200" className="cpu-svg">
 
-      <div ref={obj1Ref} className="room-object object-1">
-        <svg viewBox="0 0 100 100" className="room-icon">
-          <rect x="20" y="25" width="60" height="50" rx="4"
-            fill="none" stroke="white" strokeWidth="2" />
-          <line x1="50" y1="25" x2="50" y2="75"
-            stroke="white" strokeWidth="1.5" />
+          {/* OUTER CHIP */}
+          <rect
+            ref={cpuOutlineRef}
+            x="60"
+            y="60"
+            width="80"
+            height="80"
+            rx="16"
+            className="cpu-outline"
+          />
+
+          {/* INNER CORE */}
+          <rect
+            ref={cpuCoreRef}
+            x="85"
+            y="85"
+            width="30"
+            height="30"
+            rx="6"
+            className="cpu-core"
+          />
+
+          {/* CONNECTION LINES */}
+          <line x1="100" y1="20" x2="100" y2="60" className="cpu-line" />
+          <line x1="100" y1="140" x2="100" y2="180" className="cpu-line" />
+          <line x1="20" y1="100" x2="60" y2="100" className="cpu-line" />
+          <line x1="140" y1="100" x2="180" y2="100" className="cpu-line" />
+
         </svg>
       </div>
 
-      <div ref={obj2Ref} className="room-object object-2">
-        <svg viewBox="0 0 100 100" className="room-icon">
-          <circle cx="50" cy="50" r="20"
-            fill="none" stroke="white" strokeWidth="2" />
-          <circle cx="50" cy="50" r="8"
-            fill="none" stroke="white" strokeWidth="2" />
-        </svg>
-      </div>
-
-      <div ref={characterRef} className="character-placeholder">
-  <svg viewBox="0 0 200 300" className="character-svg">
-    <ellipse cx="100" cy="80" rx="40" ry="45" fill="#1a0033" />
-    <rect x="60" y="120" width="80" height="120" rx="40" fill="#14002b" />
-  </svg>
-</div>
-
+      {/* TEXT */}
       <div ref={heroTextRef} className="hero-text">
         <h1>Kamyashree T</h1>
         <p>Embedded Systems Engineer • Firmware Developer</p>
-      </div>
 
-      <div className="room-floor" />
+        <div ref={terminalRef} className="hero-terminal"></div>
+      </div>
 
     </section>
   );
